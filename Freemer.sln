@@ -3,17 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Freemer cons", "Freemer cons\Freemer cons.csproj", "{71A32B6F-1FDF-4906-AF7B-139E6D0EC047}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Freemer cons", "Freemer cons\Freemer cons.csproj", "{71A32B6F-1FDF-4906-AF7B-139E6D0EC047}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Freemer.Web", "Freemer.Web\Freemer.Web.csproj", "{7ED5972A-ED84-4761-912C-DAE3496BEA2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Freemer.Web", "Freemer.Web\Freemer.Web.csproj", "{7ED5972A-ED84-4761-912C-DAE3496BEA2F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Freemer.DAL", "Freemer.DAL", "{FB488D80-6914-4854-9878-9BEA53060189}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Freemer.DAL", "Freemer.DAL\Freemer.DAL.csproj", "{869323FB-C2A6-43D5-B2CE-350752AFCDAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Freemer.DAL", "Freemer.DAL\Freemer.DAL.csproj", "{869323FB-C2A6-43D5-B2CE-350752AFCDAE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Freemer.Domain", "Freemer.Domain", "{33100D76-55C1-459A-A2EE-A9CF8F363485}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Freemer.Domain", "Freemer.Domain\Freemer.Domain.csproj", "{1640DB1E-AB0B-46D2-98DE-086B2609B4EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Freemer.Domain", "Freemer.Domain\Freemer.Domain.csproj", "{1640DB1E-AB0B-46D2-98DE-086B2609B4EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Freemer.Identity", "Freemer.Identity", "{25D7C0D6-E081-4F89-9E10-CB68B0F29B60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Freemer.Identity", "Freemer.Identity\Freemer.Identity.csproj", "{9F55B022-93A2-4D57-8CA6-0999F8313113}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +41,10 @@ Global
 		{1640DB1E-AB0B-46D2-98DE-086B2609B4EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1640DB1E-AB0B-46D2-98DE-086B2609B4EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1640DB1E-AB0B-46D2-98DE-086B2609B4EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F55B022-93A2-4D57-8CA6-0999F8313113}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F55B022-93A2-4D57-8CA6-0999F8313113}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F55B022-93A2-4D57-8CA6-0999F8313113}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F55B022-93A2-4D57-8CA6-0999F8313113}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +52,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{869323FB-C2A6-43D5-B2CE-350752AFCDAE} = {FB488D80-6914-4854-9878-9BEA53060189}
 		{1640DB1E-AB0B-46D2-98DE-086B2609B4EF} = {33100D76-55C1-459A-A2EE-A9CF8F363485}
+		{9F55B022-93A2-4D57-8CA6-0999F8313113} = {25D7C0D6-E081-4F89-9E10-CB68B0F29B60}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5B2151D7-9A45-4BF3-97BF-D1FCE3554472}
