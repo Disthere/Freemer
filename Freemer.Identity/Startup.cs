@@ -1,7 +1,12 @@
+using Freemer.Identity.Data;
+using Freemer.Identity.Models;
 using IdentityServer4.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -13,11 +18,38 @@ namespace Freemer.Identity
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public Startup(IConfiguration configuration) =>
+           AppConfiguration = configuration;
+
+
+        public IConfiguration AppConfiguration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
+            string connectionString = AppConfiguration.GetValue<string>("DbConnection");
+
+            services.AddDbContext<AuthDbContext>(options =>
+            options.UseSqlServer(connectionString));
+
+            services.AddIdentity<AppUser, IdentityRole>(config =>
+            {
+                config.Password.RequiredLength = 6;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireDigit = false;
+                config.Password.RequireUppercase = false;
+            })
+                .AddEntityFrameworkStores<AuthDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.Cookie.Name = "Freemer.Identity.Cookie";
+                config.LoginPath = "/Auth/Login";
+                config.LogoutPath = "/Auth/Logout";
+            });
+
             services.AddIdentityServer()
+                .AddAspNetIdentity<AppUser>()
                 .AddInMemoryApiResources(Configuration.ApiResources)
                 .AddInMemoryIdentityResources(Configuration.IdentityResources)
                 .AddInMemoryApiScopes(Configuration.ApiScopes)
@@ -25,7 +57,7 @@ namespace Freemer.Identity
                 .AddDeveloperSigningCredential();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
