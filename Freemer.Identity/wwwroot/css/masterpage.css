@@ -1,0 +1,130 @@
+﻿html {
+    position: relative;
+    min-height: 100%;
+    border-top: 4px solid black;
+}
+
+body {
+    background: #ffffff;
+    padding-bottom: 150px;
+}
+
+.header {
+    background: #ffffff;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.headerFirstSection {
+    height: 130px;
+}
+
+.headerSecondSection {
+    border-top: 2px solid #87C9CB;
+}
+
+.navButton1 {
+    font-family: Roboto Condensed;
+    color: #4D6566;
+    font-size: 20px;
+}
+
+    .navButton1:hover, .navButton1:active, .navButton1:focus {
+        color: #87C9CB !important;
+        text-decoration: none;
+    }
+
+.navButton2 {
+    font-family: Roboto Condensed;
+    color: #724162;
+    font-size: 20px;
+}
+
+    .navButton2:hover, .navButton2:active, .navButton2:focus {
+        color: #87C9CB !important;
+        text-decoration: none;
+    }
+
+.createOrderButton {
+    font-family: Roboto Condensed !important;
+    font-weight: 700 !important;
+    color: #4D6566 !important;
+    font-size: 18px !important;
+    background-color: #87C9CB !important;
+    border-radius: 2px !important;
+}
+
+    .createOrderButton:hover {
+        color: #87C9CB !important;
+        background-color: white !important;
+    }
+
+    .createOrderButton:focus, .createOrderButton:active {
+        color: #87C9CB !important;
+        background-color: white !important;
+        box-shadow: 0 0 0 0 rgba(0,123,255,0) !important;
+    }
+
+.enterButton {
+    font-family: Roboto Condensed !important;
+    color: #4D6566 !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    background-color: white !important;
+    border-radius: 2px !important;
+    display: inline-block !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+}
+
+    .enterButton:hover {
+        color: #87C9CB !important;
+        background-color: white !important;
+    }
+
+    .enterButton:focus, .enterButton:active {
+        color: #87C9CB !important;
+        background-color: white !important;
+        box-shadow: 0 0 0 0 rgba(0,123,255,0) !important;
+    }
+
+.greeting {
+    font-family: Montserrat !important;
+    color: #4D6566 !important;
+    font-size: 36px !important;
+    font-weight: 700 !important;
+    padding-top: 40px;
+    padding-bottom: 25px;
+}
+
+.mainDescription {
+    font-family: Montserrat !important;
+    color: #724162 !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    padding-bottom: 20px;
+}
+
+.handsImg {
+    padding-bottom: 0px;
+}
+
+.githubRedirection {
+    padding-top: 40px;
+    font-family: Montserrat !important;
+    color: #4D6566 !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    padding-bottom: 20px;
+    text-align: center;
+}
+
+.footer {
+    background: #4D6566;
+    padding: 7px;
+    height: 150px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}

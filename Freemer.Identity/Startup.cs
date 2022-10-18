@@ -55,6 +55,8 @@ namespace Freemer.Identity
                 .AddInMemoryApiScopes(Configuration.ApiScopes)
                 .AddInMemoryClients(Configuration.Clients)
                 .AddDeveloperSigningCredential();
+
+            services.AddControllersWithViews();
         }
 
 
@@ -65,16 +67,19 @@ namespace Freemer.Identity
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseIdentityServer();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
