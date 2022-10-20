@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using Freemer.DAL.Persistence;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Freemer.Web
 {
@@ -27,6 +28,20 @@ namespace Freemer.Web
             //services.AddSqliteDbConnection(Configuration);
 
             services.AddControllersWithViews();
+
+            services.AddAuthentication(config =>
+            {
+                config.DefaultAuthenticateScheme = 
+                JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme =
+                JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "https://localhost:5001/";
+                    options.Audience = "Freemer.Web";
+                    options.RequireHttpsMetadata = false;
+                });
         }
 
        
@@ -42,10 +57,14 @@ namespace Freemer.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
