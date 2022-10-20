@@ -8,6 +8,10 @@ namespace Freemer.Identity.Models
         public string UserName { get; set; }
 
         [Required]
+        [DataType(DataType.EmailAddress)]
+        public string EmailAddress { get; set; }
+
+        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
@@ -15,6 +19,9 @@ namespace Freemer.Identity.Models
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
+
+        public bool RememberMe { get; set; }
+
         public string ReturnUrl { get; set; }
     }
 }
