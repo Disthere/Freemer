@@ -88,6 +88,29 @@ body {
         box-shadow: 0 0 0 0 rgba(0,123,255,0) !important;
     }
 
+.logoutButton {
+    font-family: Roboto Condensed !important;
+    color: #4D6566 !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    background-color: white !important;
+    border-radius: 2px !important;
+    display: inline-block !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+}
+
+    .logoutButton:hover {
+        color: #87C9CB !important;
+        background-color: white !important;
+    }
+
+    .logoutButton:focus, .logoutButton:active {
+        color: #87C9CB !important;
+        background-color: white !important;
+        box-shadow: 0 0 0 0 rgba(0,123,255,0) !important;
+    }
+
 .greeting {
     font-family: Montserrat !important;
     color: #4D6566 !important;

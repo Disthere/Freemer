@@ -109,7 +109,8 @@ namespace Freemer.Identity.Controllers
         {
             await _signInManager.SignOutAsync();
             var logoutRequest = await _interactionService.GetLogoutContextAsync(logoutId);
-            return Redirect(logoutRequest.PostLogoutRedirectUri);
+            //return Redirect(logoutRequest.PostLogoutRedirectUri);
+            return RedirectToAction("Login", "Auth");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

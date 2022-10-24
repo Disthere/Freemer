@@ -46,13 +46,33 @@
                                 <input type="submit" value="Создать заказ" class="btn createOrderButton text-nowrap">
                             </form>
                         </div>
-                        <div class="col d-flex align-items-center">
-                            <button onclick="location.href='https://google.com'" type="button" class="btn enterButton">
-                                <img src="~/images/8371161.png" alt="" width="40" height="40">
-                                Войти
-                            </button>
-                        </div>
+
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <div class="col d-flex align-items-center">
+                                <h5 align="right">
+                                    <a asp-controller="Auth" asp-action="Login" class="enterButton">
+                                        <img src="~/images/EnterIcon.png" alt="" width="40" height="40">
+                                        Войти
+                                    </a>
+                                </h5>
+                            </div>
+                        }
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <div class="col d-flex align-items-center">
+                                <h5 align="right">
+                                    <a asp-controller="Auth" asp-action="Logout" class="logoutButton">
+                                        <img src="~/images/LogoutIcon.png" alt="" width="40" height="40">
+                                        Выйти
+                                    </a>
+                                </h5>
+                            </div>
+                        }
+
                     </div>
+
 
                 </div>
             </div>
@@ -85,25 +105,25 @@
             @RenderBody()
         </main>
     </div>
-<
-        <section class="content">
-            
-                <h2 class="githubRedirection">
-                    <span class="">Сейчас Freemer на стадии разработки основного функционала.</span>
-                    <br>
-                    <br>
-                    <span class="">
-                        Все подробности на
-                        
-                            <a href="https://github.com/disthere/freemer" target="_blank">
-                                <span>https://github.com/Disthere/Freemer</span>
-                            </a>
-                                </span>
-                        
-                </h2>
-            
-        </section>
-    
+    <
+    <section class="content">
+
+        <h2 class="githubRedirection">
+            <span class="">Сейчас Freemer на стадии разработки основного функционала.</span>
+            <br>
+            <br>
+            <span class="">
+                Все подробности на
+
+                <a href="https://github.com/disthere/freemer" target="_blank">
+                    <span>https://github.com/Disthere/Freemer</span>
+                </a>
+            </span>
+
+        </h2>
+
+    </section>
+
 
 
     <footer class="footer">
