@@ -1,4 +1,6 @@
+using Freemer.Identity.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
@@ -19,7 +21,14 @@ namespace Freemer.Identity
             try
             {
                 Log.Information("Starting web host");
-                CreateHostBuilder(args).Build().Run();
+
+                var host = CreateHostBuilder(args).Build();
+                using (var scope = host.Services.CreateScope())
+                {
+                    DatabaseInitializer.Init(scope.ServiceProvider);
+                }
+                host.Run();
+
                 return 0;
             }
             catch (Exception ex)

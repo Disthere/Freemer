@@ -1,0 +1,19 @@
+﻿По инструкции Identity Server 4
+
+Добавляем миграции
+
+Add-Migration InitialIdentityServerPersistedGrantDbMigration -Context PersistedGrantDbContext -OutputDir Data/Migrations/IdentityServer/PersistedGrantDb
+
+Update-Database -Context PersistedGrantDbContext
+
+
+
+Add-Migration InitialIdentityServerConfigurationDbMigration -Context ConfigurationDbContext -OutputDir Data/Migrations/IdentityServer/ConfigurationDb
+
+Update-Database -Context ConfigurationDbContext
+
+
+
+Add-Migration InitialApplicationMigration -Context ApplicationDbContext -OutputDir Data/Migrations/ApplicationDb
+
+Update-Database -Context ApplicationDbContext

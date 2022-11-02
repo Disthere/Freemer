@@ -12,24 +12,31 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.Test;
+using IdentityServer4.AspNetIdentity;
+using Freemer.Identity.Infrastructure;
 
 namespace Freemer.Identity
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration) =>
-           AppConfiguration = configuration;
+        private IConfiguration AppConfiguration { get; }
+        public IWebHostEnvironment Environment { get; }
 
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment) =>
+           (AppConfiguration, Environment) = (configuration, environment);
 
-        public IConfiguration AppConfiguration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            string connectionString = AppConfiguration.GetValue<string>("DbConnection");
+                    
+            string applicationDbConnectionString = AppConfiguration.GetValue<string>("ApplicationDbConnection");
 
-            services.AddDbContext<AuthDbContext>(options =>
-            options.UseSqlServer(connectionString));
+            services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(applicationDbConnectionString));
 
             services.AddIdentity<AppUser, IdentityRole>(config =>
             {
@@ -37,26 +44,43 @@ namespace Freemer.Identity
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireDigit = false;
                 config.Password.RequireUppercase = false;
+                config.User.RequireUniqueEmail = true;
+                //config.SignIn.RequireConfirmedEmail = true;
+                //config.SignIn.RequireConfirmedPhoneNumber = true;
             })
-                .AddEntityFrameworkStores<AuthDbContext>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.ConfigureApplicationCookie(config =>
             {
-                config.Cookie.Name = "Freemer.Identity.Cookie";
-                config.LoginPath = "/Auth/Login";
-                config.LogoutPath = "/Auth/Logout";
+                config.Cookie.Name = "IdentityServer.Cookies";
+                //config.Cookie.Name = "Freemer.Identity.Cookie";
+                //config.LoginPath = "/Auth/Login";
+                //config.LogoutPath = "/Auth/Logout";
             });
 
+            string identityServerDbConnectionString = AppConfiguration.GetValue<string>("IdentityServerDbConnection");
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
             services.AddIdentityServer()
+                .AddConfigurationStore(options =>
+                {
+                options.ConfigureDbContext = b => b.UseSqlServer(identityServerDbConnectionString,
+                    sql => sql.MigrationsAssembly(migrationsAssembly));
+                })
+                .AddOperationalStore(options =>
+                {
+                options.ConfigureDbContext = b => b.UseSqlServer(identityServerDbConnectionString,
+                    sql => sql.MigrationsAssembly(migrationsAssembly));
+                })
+                .AddTestUsers(TestUsers.Users)
+                
+                //.AddProfileService<ProfileService>()
                 .AddAspNetIdentity<AppUser>()
-                .AddInMemoryApiResources(Configuration.ApiResources)
-                .AddInMemoryIdentityResources(Configuration.IdentityResources)
-                .AddInMemoryApiScopes(Configuration.ApiScopes)
-                .AddInMemoryClients(Configuration.Clients)
                 .AddDeveloperSigningCredential();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
         }
 
 
@@ -67,19 +91,25 @@ namespace Freemer.Identity
                 app.UseDeveloperExceptionPage();
             }
 
+#if DEBUG
+            //DbInitializer.Initialize(app); 
+#endif
+
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
             app.UseIdentityServer();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
             });
         }
     }

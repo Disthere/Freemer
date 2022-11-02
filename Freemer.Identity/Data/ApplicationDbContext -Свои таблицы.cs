@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Freemer.Identity.Data
 {
-    public class AuthDbContext : IdentityDbContext<AppUser>
+    public class pplicationDbContext : IdentityDbContext<AppUser>
     {
-        public AuthDbContext(DbContextOptions<AuthDbContext> options)
+        public pplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
 
