@@ -4,6 +4,8 @@
 
 using System;
 using System.Linq;
+using System.Text.Encodings.Web;
+using System.Text;
 using System.Threading.Tasks;
 using Freemer.Identity.Models;
 using IdentityModel;
@@ -15,11 +17,14 @@ using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 
 namespace Freemer.Identity.Account
 {
-    [SecurityHeaders]
+    //[SecurityHeaders]
     [AllowAnonymous]
     public class AccountController : Controller
     {
@@ -29,6 +34,8 @@ namespace Freemer.Identity.Account
         private readonly IClientStore _clientStore;
         private readonly IAuthenticationSchemeProvider _schemeProvider;
         private readonly IEventService _events;
+        private readonly ILogger<RegisterViewModel> _logger;
+        //private readonly IEmailSender _emailSender;
 
         public AccountController(
             UserManager<AppUser> userManager,
@@ -36,7 +43,9 @@ namespace Freemer.Identity.Account
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
-            IEventService events)
+            IEventService events,
+            ILogger<RegisterViewModel> logger)
+            //IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -44,6 +53,8 @@ namespace Freemer.Identity.Account
             _clientStore = clientStore;
             _schemeProvider = schemeProvider;
             _events = events;
+            _logger = logger;
+            //_emailSender = emailSender;
         }
 
         /// <summary>
@@ -68,7 +79,7 @@ namespace Freemer.Identity.Account
         /// Handle postback from username/password login
         /// </summary>
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginInputModel model, string button)
         {
             // check if we are in the context of an authorization request
@@ -138,7 +149,7 @@ namespace Freemer.Identity.Account
                     }
                 }
 
-                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId:context?.Client.ClientId));
+                await _events.RaiseAsync(new UserLoginFailureEvent(model.Username, "invalid credentials", clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, AccountOptions.InvalidCredentialsErrorMessage);
             }
 
@@ -147,7 +158,7 @@ namespace Freemer.Identity.Account
             return View(vm);
         }
 
-        
+
         /// <summary>
         /// Show logout page
         /// </summary>
@@ -206,6 +217,86 @@ namespace Freemer.Identity.Account
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> RegisterAsync(string returnUrl)
+        {
+            var viewModel = new RegisterViewModel
+            {
+                ReturnUrl = returnUrl,
+                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+            };
+
+            return View(returnUrl);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel viewModel)
+        {
+            var registerViewModel = viewModel;
+            {
+                registerViewModel.ReturnUrl = viewModel.ReturnUrl;
+                registerViewModel.ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            };
+
+            if (!ModelState.IsValid)
+            {
+                return View(viewModel);
+            }
+
+            var user = new AppUser()
+            {
+                UserName = viewModel.UserName,
+                Email = viewModel.Email
+            };
+
+            var result = await _userManager.CreateAsync(user, viewModel.Password);
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, false);
+                return Redirect(viewModel.ReturnUrl);
+            }
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User created a new account with password.");
+
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                //var callbackUrl = Url.Page(
+                //    "/Account/ConfirmEmail",
+                //    pageHandler: null,
+                //    values: new { area = "Identity", userId = user.Id, code = code, returnUrl = viewModel.ReturnUrl },
+                //    protocol: Request.Scheme);
+
+                //await _emailSender.SendEmailAsync(viewModel.Email, "Confirm your email",
+                //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                //if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                //{
+                //    return RedirectToPage("RegisterConfirmation", new { email = viewModel.Email, returnUrl = viewModel.ReturnUrl });
+                //}
+                //else
+                //{
+                //    await _signInManager.SignInAsync(user, isPersistent: false);
+                //    return LocalRedirect(viewModel.ReturnUrl);
+                //}
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            ModelState.AddModelError(string.Empty, "Error occurred");
+            return View(viewModel);
+        }
+
+
+
+
+
+
 
 
         /*****************************************/

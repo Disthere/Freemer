@@ -16,9 +16,9 @@ namespace Freemer.Identity.Data
         //public DbSet<Order> Orders { get; set; }
         //public DbSet<Category> Categories { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-            
-        //}
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }

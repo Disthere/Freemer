@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Freemer.Identity.Models
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="col d-flex align-items-center justify-content-center">
+            <h5 align="right">
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" class="profileButton">
+                    <img src="~/images/user-profile.png" alt="" width="30" height="30">
+                @UserManager.GetUserName(User)
+                </a>
+            </h5>
+        </div>
+
+    <div class="col d-flex align-items-center justify-content-center">
+            <h5 align="right">
+            <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" class="logoutButton">
+                    <img src="~/images/LogoutIcon.png" alt="" width="35" height="35">
+                    Выход
+                </a>
+            </h5>
+        </div>
+    
+    
+    
+}
+else
+{
+    <div class="col d-flex align-items-center justify-content-center">
+        <h5 align="right">
+            <a asp-area="Identity" asp-page="/Account/Login" class="enterButton">
+                <img src="~/images/EnterIcon.png" alt="" width="35" height="35">
+                Войти
+            </a>
+        </h5>
+    </div>
+    
+    
+    
+}
+

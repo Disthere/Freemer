@@ -1,53 +1,55 @@
-@model Freemer.Identity.Account.LoginViewModel
+﻿@model LoginViewModel
 
-<div class="login-page">
-    <div class="lead">
-        <h1>Login</h1>
-        <p>Choose how to login</p>
-    </div>
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/auth/loginpage.css" type="text/css" media="screen" />
 
-    <partial name="_ValidationSummary" />
+    <script class="script" type="text/javascript" src="~/js/jquery.js" defer=""></script>
+    <script class="script" type="text/javascript" src="~/js/jquery.min.js" defer=""></script>
+    <script class="script" type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" defer=""></script>
 
+</head>
+
+
+
+<div class="container">
     <div class="row">
-
         @if (Model.EnableLocalLogin)
         {
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Local Account</h2>
-                    </div>
-
+            <div class="col-sm-9 col-md-7 col-lg-6 mx-auto">
+                <div class="card card-signin my-5">
                     <div class="card-body">
-                        <form asp-route="Login">
+                        <h5 class="card-title text-center">Вход в аккаунт</h5>
+                        <form class="form-signin" asp-controller="Account" asp-action="Login" method="post">
                             <input type="hidden" asp-for="ReturnUrl" />
+                            <div class="form-label-group">
+                                <input asp-for="Username" type="text" id="inputUserName" class="form-control" placeholder="User Name" required autofocus>
+                                <span asp-validation-for="Username"></span>
+                                <label for="inputUserName">User Name</label>
+                            </div>
 
-                            <div class="form-group">
-                                <label asp-for="Username"></label>
-                                <input class="form-control" placeholder="Username" asp-for="Username" autofocus>
+                            <div class="form-label-group">
+                                <input asp-for="Password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                                <span asp-validation-for="Password"></span>
+                                <label for="inputPassword">Password</label>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="Password"></label>
-                                <input type="password" class="form-control" placeholder="Password" asp-for="Password" autocomplete="off">
-                            </div>
-                            @if (Model.AllowRememberLogin)
-                            {
-                                <div class="form-group">
-                                    <div class="form-check">
-                                        <input class="form-check-input" asp-for="RememberLogin">
-                                        <label class="form-check-label" asp-for="RememberLogin">
-                                            Remember My Login
-                                        </label>
-                                    </div>
+
+                            <div class="custom-control d-flex align-items-center custom-checkbox mb-3">
+                                @if (Model.AllowRememberLogin)
+                                {
+                                    <input asp-for="RememberLogin" type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <label asp-for="RememberLogin" class="custom-control-label" style="color:#4D6566" for="customCheck1">Запомнить пароль</label>
+                                }
+
+                                <div class="col-md d-flex justify-content-end">
+                                    <a asp-area="" asp-controller="Account" asp-action="Register" class="text-primary fw-bold ,  text-align: right;">Создать аккаунт Freemer</a>
                                 </div>
-                            }
-
-                            <div>
-                                <p>The default users are <b>User</b>, password: <b>123qwe</b></p>
                             </div>
 
-                            <button class="btn btn-primary" name="button" value="login">Login</button>
-                            <button class="btn btn-secondary" name="button" value="cancel">Cancel</button>
+                            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="button" value="login">Войти</button>
+                            <hr class="my-4">
+                            <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Войти с Google</button>
+                            <button class="btn btn-lg btn-vk btn-block text-uppercase" type="submit"><i class="fab fa-vk-f mr-2"></i> Войти с VK</button>
                         </form>
                     </div>
                 </div>
@@ -67,10 +69,10 @@
                             {
                                 <li class="list-inline-item">
                                     <a class="btn btn-secondary"
-                                       asp-controller="External"
-                                       asp-action="Challenge"
-                                       asp-route-scheme="@provider.AuthenticationScheme"
-                                       asp-route-returnUrl="@Model.ReturnUrl">
+                               asp-controller="External"
+                               asp-action="Challenge"
+                               asp-route-scheme="@provider.AuthenticationScheme"
+                               asp-route-returnUrl="@Model.ReturnUrl">
                                         @provider.DisplayName
                                     </a>
                                 </li>
@@ -88,5 +90,7 @@
                 There are no login schemes configured for this request.
             </div>
         }
+
     </div>
 </div>
+

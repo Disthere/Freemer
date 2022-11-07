@@ -2,7 +2,7 @@
 
 namespace Freemer.Identity.Models
 {
-    public class LoginViewModel
+    public class LoginViewModelMy
     {
         [Required]
         public string UserName { get; set; }

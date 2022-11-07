@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="keywords" content="фриланс, найти работу, удаленная работа, программирование, работа из дома, фриланс для новичков без опыта, вакансии​">
     <meta name="description" content="Freemer - понятный ресурс для фрилансеров">
     <title>Auth</title>
@@ -14,6 +14,9 @@
 
 </head>
 <body>
+
+    
+
     <header class="header">
         <div class="container headerFirstSection">
             <div class="row" style="height: 130px;">
@@ -37,6 +40,7 @@
                             <a class="navButton1" href="Контакты.html" style="padding: 10px 12px;">Контакты</a>
                         </li>
                     </ul>
+                    
                 </div>
                 <div class="col-xl-3 d-flex align-items-center">
 
@@ -46,30 +50,8 @@
                                 <input type="submit" value="Создать заказ" class="btn createOrderButton text-nowrap">
                             </form>
                         </div>
-
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <div class="col d-flex align-items-center">
-                                <h5 align="right">
-                                    <a asp-controller="Auth" asp-action="Login" class="enterButton">
-                                        <img src="~/images/EnterIcon.png" alt="" width="40" height="40">
-                                        Войти
-                                    </a>
-                                </h5>
-                            </div>
-                        }
-
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <div class="col d-flex align-items-center">
-                                <h5 align="right">
-                                    <a asp-controller="Auth" asp-action="Logout" class="logoutButton">
-                                        <img src="~/images/LogoutIcon.png" alt="" width="40" height="40">
-                                        Выйти
-                                    </a>
-                                </h5>
-                            </div>
-                        }
+                        <partial name="_LoginPartial" />
+                        
 
                     </div>
 
@@ -135,6 +117,9 @@
             </div>
         </div>
     </footer>
-
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

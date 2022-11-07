@@ -1,4 +1,4 @@
-﻿@model RegisterViewModelMy
+﻿@model RegisterViewModel
 
 <head>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -16,7 +16,7 @@
             <div class="card card-signin my-5">
                 <div class="card-body">
                     <h5 class="card-title text-center">Регистрация</h5>
-                    <form class="form-signin" asp-controller="Auth" asp-action="Register" method="post">
+                    <form class="form-signin" asp-route="Register" method="post">
                         <input type="hidden" asp-for="ReturnUrl" />
                         <div class="form-label-group">
                             <input asp-for="UserName" type="text" id="inputUserName" class="form-control" placeholder="User Name" required autofocus>
@@ -43,15 +43,14 @@
                         </div>
 
                         <div class="custom-control d-flex align-items-center custom-checkbox mb-3">
-                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                            <label class="custom-control-label" style="color:#4D6566" for="customCheck1">Запомнить пароль</label>
+                            
                             <div class="col-md d-flex justify-content-end">
                                 <p>Есть аккаунт? &nbsp; </p>
-                                <a asp-area="" asp-controller="Auth" asp-action="Login" class="text-primary fw-bold ,  text-align: right;">Войти</a>
+                                <a asp-area="" asp-controller="Account" asp-action="Login" class="text-primary fw-bold ,  text-align: right;">Войти</a>
                             </div>
                         </div>
 
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Создать аккаунт</button>
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" value="register">Создать аккаунт</button>
                         <hr class="my-4">
                         <button class="btn btn-lg btn-google btn-block text-uppercase" type="submit"><i class="fab fa-google mr-2"></i> Войти с Google</button>
                         <button class="btn btn-lg btn-vk btn-block text-uppercase" type="submit"><i class="fab fa-vk-f mr-2"></i> Войти с VK</button>

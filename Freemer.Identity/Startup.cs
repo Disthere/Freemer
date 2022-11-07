@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.Test;
 using IdentityServer4.AspNetIdentity;
-using Freemer.Identity.Infrastructure;
+
 
 namespace Freemer.Identity
 {
@@ -38,13 +38,14 @@ namespace Freemer.Identity
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(applicationDbConnectionString));
 
-            services.AddIdentity<AppUser, IdentityRole>(config =>
+            services.AddDefaultIdentity<AppUser>(config =>
             {
+                //config.SignIn.RequireConfirmedAccount = true;
                 config.Password.RequiredLength = 6;
                 config.Password.RequireNonAlphanumeric = false;
                 config.Password.RequireDigit = false;
                 config.Password.RequireUppercase = false;
-                config.User.RequireUniqueEmail = true;
+                //config.User.RequireUniqueEmail = true;
                 //config.SignIn.RequireConfirmedEmail = true;
                 //config.SignIn.RequireConfirmedPhoneNumber = true;
             })
@@ -79,8 +80,15 @@ namespace Freemer.Identity
                 .AddAspNetIdentity<AppUser>()
                 .AddDeveloperSigningCredential();
 
-            services.AddControllersWithViews()
+            services.AddRazorPages();
+
+            if (Environment.IsDevelopment())
+            {
+                services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
+            }
+            else
+            services.AddControllersWithViews();
         }
 
 
@@ -110,6 +118,7 @@ namespace Freemer.Identity
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapRazorPages();
             });
         }
     }

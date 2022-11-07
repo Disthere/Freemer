@@ -31,7 +31,7 @@ namespace Freemer.Identity.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
-            var viewModel = new LoginViewModel
+            var viewModel = new LoginViewModelMy
             { 
                 ReturnUrl = returnUrl 
             };
@@ -40,7 +40,7 @@ namespace Freemer.Identity.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel viewModel)
+        public async Task<IActionResult> Login(LoginViewModelMy viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -71,7 +71,7 @@ namespace Freemer.Identity.Controllers
         [HttpGet]
         public IActionResult Register(string returnUrl)
         {
-            var viewModel = new RegisterViewModel
+            var viewModel = new RegisterViewModelMy
             {
                 ReturnUrl = returnUrl
             };
@@ -80,7 +80,7 @@ namespace Freemer.Identity.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel viewModel)
+        public async Task<IActionResult> Register(RegisterViewModelMy viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Freemer.Identity.Controllers
             var user = new AppUser()
             {
                 UserName = viewModel.UserName,
-                Email = viewModel.EmailAddress
+                Email = viewModel.Email
             };
 
             var result = await _userManager.CreateAsync(user, viewModel.Password);
