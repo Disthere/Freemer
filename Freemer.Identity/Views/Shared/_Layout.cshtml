@@ -15,11 +15,11 @@
 </head>
 <body>
 
-    
+
 
     <header class="header">
-        <div class="container headerFirstSection">
-            <div class="row" style="height: 130px;">
+        <div class="container headerFirstSection d-block">
+            <div class="row" style="min-height: 130px;">
                 <div class="col-xl-3 d-flex align-items-center">
                     <a href="https://google.com">
                         <img src="~/images/aa9ea670-a448-7168-e6d9-13db9cbba82d.png" class="logo-image" width="280" height="105">
@@ -40,21 +40,23 @@
                             <a class="navButton1" href="Контакты.html" style="padding: 10px 12px;">Контакты</a>
                         </li>
                     </ul>
-                    
                 </div>
-                <div class="col-xl-3 d-flex align-items-center">
 
-                    <div class="row">
-                        <div class="col d-flex align-items-center">
-                            <form action="https://google.com">
-                                <input type="submit" value="Создать заказ" class="btn createOrderButton text-nowrap">
-                            </form>
+                <div class="col-xl-3 d-flex align-items-end justify-content-center">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="row">
+                                <partial name="_LoginPartial" />
+                                <div class="col-sm d-flex justify-content-end" style="margin: 5px;">
+                                    <form action="https://google.com">
+                                        <input type="submit" value="Создать заказ" class="btn createOrderButton text-nowrap">
+                                    </form>
+                                </div>
+
+                            </div>
                         </div>
-                        <partial name="_LoginPartial" />
-                        
-
                     </div>
-
 
                 </div>
             </div>
